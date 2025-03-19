@@ -57,8 +57,8 @@ async function getEvents (){
       const eventData = {
         name: document.querySelector("#eventName").value,
         description: document.querySelector("#eventDescription").value,
-        date: document.querySelector("#eventDate").value,
-        location: document.querySelector("#eventLocation").value
+        date: `${document.querySelector("#eventDate").value}:00Z`,
+        location: document.querySelector("#eventLocation").value,
       }
 
       await createEvent(eventData)
@@ -83,13 +83,15 @@ async function getEvents (){
   }
 
   async function createEvent(newEventInfo){
+    console.log(newEventInfo)
     try {
-      await fetch (baseUrl, {
+      const response = await fetch (baseUrl, {
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify(newEventInfo)
       })
-
+const result = await response.json()
+console.log(result)
       await getEvents()
 
     } catch (error){
